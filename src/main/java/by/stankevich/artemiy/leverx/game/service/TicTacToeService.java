@@ -1,22 +1,20 @@
 package by.stankevich.artemiy.leverx.game.service;
 
 import by.stankevich.artemiy.leverx.game.bean.TicTacToe;
-
 import java.util.Random;
 import java.util.Scanner;
-
 import static by.stankevich.artemiy.leverx.game.bean.TicTacToe.*;
 
 public class TicTacToeService {
+
+    private static final char SIGN_EMPTY = ' ';
+    private static final char SIGN_X = 'x';
+    private static final char SIGN_O = 'o';
 
     private TicTacToe ticTacToe;
     private Random random;
     private Scanner scanner;
 
-
-    public Scanner getScanner() {
-        return scanner;
-    }
 
     public TicTacToeService(TicTacToe ticTacToe) {
         this.ticTacToe = ticTacToe;
@@ -31,7 +29,7 @@ public class TicTacToeService {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                getField()[i][j] = getSignEmpty();
+                getField()[i][j] = SIGN_EMPTY;
             }
         }
     }
@@ -60,12 +58,11 @@ public class TicTacToeService {
 
     private void startGameWithAnotherPlayer() {
         System.out.println("Good luck players!");
-        greetingsPlayers();
         while (true) {
             turnHumanX();
             printField();
-            if (checkWin(getSignX())) {
-                System.out.println("Congratulations player: " + ticTacToe.getNamePlayerOne() + ". You Win!");
+            if (checkWin(SIGN_X)) {
+                System.out.println("Congratulations player 1. You Win!");
                 break;
             }
             if (isFieldFull()) {
@@ -74,8 +71,8 @@ public class TicTacToeService {
             }
             turnHumanO();
             printField();
-            if (checkWin(getSignO())) {
-                System.out.println("Congratulations player: " + ticTacToe.getNamePlayerTwo() + ". You Win!");
+            if (checkWin(SIGN_O)) {
+                System.out.println("Congratulations player 2. You Win!");
                 break;
             }
             if (isFieldFull()) {
@@ -89,11 +86,10 @@ public class TicTacToeService {
 
     private void startGameWithAi() {
         System.out.println("Good luck player!");
-        greetingsPlayer();
         while (true) {
             turnHumanX();
-            if (checkWin(getSignX())) {
-                System.out.println("Congratulations player: " + ticTacToe.getNamePlayerOne() + ". You Win!");
+            if (checkWin(SIGN_X)) {
+                System.out.println("Congratulations player. You Win!");
                 break;
             }
             if (isFieldFull()) {
@@ -102,7 +98,7 @@ public class TicTacToeService {
             }
             turnAI();
             printField();
-            if (checkWin(getSignO())) {
+            if (checkWin(SIGN_O)) {
                 System.out.println("Sorry, but you loose.. AI Win!");
                 break;
             }
@@ -115,38 +111,6 @@ public class TicTacToeService {
         printField();
     }
 
-
-    private void greetingsPlayers() {
-        boolean isFlag = false;
-        do {
-            System.out.println("First player enter your name: ");
-            ticTacToe.setNamePlayerOne(scanner.nextLine());
-            System.out.println("Second player enter your name: ");
-            ticTacToe.setNamePlayerTwo(scanner.nextLine());
-            if (ticTacToe.getNamePlayerOne().equals("") || ticTacToe.getNamePlayerTwo().equals("")) {
-                System.out.println("You entered an empty name, please try again.. ");
-            } else isFlag = true;
-        } while (!isFlag);
-
-        System.out.println("Greeting player <" + ticTacToe.getNamePlayerOne() + ">, " +
-                "and player <" + ticTacToe.getNamePlayerTwo() + ">.");
-        System.out.println("Let's the battle begin...!!!");
-    }
-
-    public void greetingsPlayer() {
-        boolean isFlag = false;
-        do {
-            System.out.println("Player enter your name: ");
-            ticTacToe.setNamePlayerOne(scanner.nextLine());
-            if (ticTacToe.getNamePlayerOne().equals("")) {
-                System.out.println("You entered an empty name, please try again.. ");
-            } else isFlag = true;
-        } while (!isFlag);
-
-        System.out.println("Greeting player <" + ticTacToe.getNamePlayerOne() + ">.");
-        System.out.println("Let's the battle begin...!!!");
-    }
-
     private void turnHumanX() {
         int x;
         int y;
@@ -155,7 +119,7 @@ public class TicTacToeService {
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
         } while (!isCellValid(x, y));
-        getField()[y][x] = getSignX();
+        getField()[y][x] = SIGN_X;
     }
 
     private void turnHumanO() {
@@ -166,13 +130,13 @@ public class TicTacToeService {
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
         } while (!isCellValid(x, y));
-        getField()[y][x] = getSignO();
+        getField()[y][x] = SIGN_O;
     }
 
     private boolean isCellValid(int x, int y) {
         if (x < 0 || y < 0 || x >= 3 || y >= 3)
             return false;
-        return getField()[y][x] == getSignEmpty();
+        return getField()[y][x] == SIGN_EMPTY;
     }
 
     private void turnAI() {
@@ -181,7 +145,7 @@ public class TicTacToeService {
             x = random.nextInt(3);
             y = random.nextInt(3);
         } while (!isCellValid(x, y));
-        getField()[y][x] = getSignO();
+        getField()[y][x] = SIGN_O;
     }
 
     private void printField() {
@@ -212,7 +176,7 @@ public class TicTacToeService {
     private boolean isFieldFull() {
         for (int row = 0; row < 3; row++)
             for (int col = 0; col < 3; col++)
-                if (getField()[row][col] == getSignEmpty())
+                if (getField()[row][col] == SIGN_EMPTY)
                     return false;
         return true;
     }
