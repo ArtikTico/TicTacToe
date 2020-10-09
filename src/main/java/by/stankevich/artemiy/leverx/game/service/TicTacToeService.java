@@ -8,6 +8,7 @@ import java.util.Scanner;
 import static by.stankevich.artemiy.leverx.game.bean.TicTacToe.*;
 
 public class TicTacToeService {
+
     private TicTacToe ticTacToe;
     private Random random;
     private Scanner scanner;
@@ -23,7 +24,7 @@ public class TicTacToeService {
         System.out.println("....Initialize....");
     }
 
-    public void initGame() {
+    private void initGame() {
         random = new Random();
         scanner = new Scanner(System.in);
         setField(new char[3][3]);
@@ -39,7 +40,7 @@ public class TicTacToeService {
         chooseTypeGame();
     }
 
-    public void chooseTypeGame() {
+    private void chooseTypeGame() {
         System.out.println("Choose type game:");
         System.out.println("If you want to play with computer - enter '1' ");
         System.out.println("If you want to play with another player - enter '2' ");
@@ -115,7 +116,7 @@ public class TicTacToeService {
     }
 
 
-    public void greetingsPlayers() {
+    private void greetingsPlayers() {
         boolean isFlag = false;
         do {
             System.out.println("First player enter your name: ");
@@ -146,7 +147,7 @@ public class TicTacToeService {
         System.out.println("Let's the battle begin...!!!");
     }
 
-    void turnHumanX() {
+    private void turnHumanX() {
         int x;
         int y;
         do {
@@ -157,7 +158,7 @@ public class TicTacToeService {
         getField()[y][x] = getSignX();
     }
 
-    public void turnHumanO() {
+    private void turnHumanO() {
         int x;
         int y;
         do {
@@ -168,13 +169,13 @@ public class TicTacToeService {
         getField()[y][x] = getSignO();
     }
 
-    public boolean isCellValid(int x, int y) {
+    private boolean isCellValid(int x, int y) {
         if (x < 0 || y < 0 || x >= 3 || y >= 3)
             return false;
         return getField()[y][x] == getSignEmpty();
     }
 
-    public void turnAI() {
+    private void turnAI() {
         int x, y;
         do {
             x = random.nextInt(3);
@@ -183,7 +184,7 @@ public class TicTacToeService {
         getField()[y][x] = getSignO();
     }
 
-    public void printField() {
+    private void printField() {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 System.out.print(getField()[row][col] + " ");
@@ -192,22 +193,23 @@ public class TicTacToeService {
         }
     }
 
-    public boolean checkWin(char symbol) {
+    private boolean checkWin(char symbol) {
         for (int i = 0; i < 3; i++)
-            if ((getField()[i][0] == symbol && getField()[i][1] == symbol &&
-                    getField()[i][2] == symbol) ||
-                    (getField()[0][i] == symbol && getField()[1][i] == symbol &&
-                            getField()[2][i] == symbol))
+            if ((getField()[i][0] == symbol && getField()[i][1] == symbol
+                    && getField()[i][2] == symbol) || (getField()[0][i] == symbol
+                    && getField()[1][i] == symbol && getField()[2][i] == symbol)) {
                 return true;
-        if ((getField()[0][0] == symbol && getField()[1][1] == symbol &&
-                getField()[2][2] == symbol) ||
-                (getField()[2][0] == symbol && getField()[1][1] == symbol &&
-                        getField()[0][2] == symbol))
+            }
+        if ((getField()[0][0] == symbol && getField()[1][1] == symbol
+                && getField()[2][2] == symbol) ||
+                (getField()[2][0] == symbol && getField()[1][1] == symbol
+                        && getField()[0][2] == symbol)) {
             return true;
+        }
         return false;
     }
 
-    public boolean isFieldFull() {
+    private boolean isFieldFull() {
         for (int row = 0; row < 3; row++)
             for (int col = 0; col < 3; col++)
                 if (getField()[row][col] == getSignEmpty())
