@@ -1,8 +1,15 @@
 package by.stankevich.artemiy.leverx.game.service;
 
 import by.stankevich.artemiy.leverx.game.bean.TicTacToe;
+
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import static by.stankevich.artemiy.leverx.game.bean.TicTacToe.*;
 
 public class TicTacToeService {
@@ -60,7 +67,6 @@ public class TicTacToeService {
         System.out.println("Good luck players!");
         while (true) {
             turnHumanX();
-            printField();
             if (checkWin(SIGN_X)) {
                 System.out.println("Congratulations player 1. You Win!");
                 break;
@@ -70,7 +76,7 @@ public class TicTacToeService {
                 break;
             }
             turnHumanO();
-            printField();
+            printFieldStream();
             if (checkWin(SIGN_O)) {
                 System.out.println("Congratulations player 2. You Win!");
                 break;
@@ -81,7 +87,7 @@ public class TicTacToeService {
             }
         }
         System.out.println("..Game over..");
-        printField();
+        printFieldStream();
     }
 
     private void startGameWithAi() {
@@ -97,7 +103,7 @@ public class TicTacToeService {
                 break;
             }
             turnAI();
-            printField();
+            printFieldStream();
             if (checkWin(SIGN_O)) {
                 System.out.println("Sorry, but you loose.. AI Win!");
                 break;
@@ -108,7 +114,7 @@ public class TicTacToeService {
             }
         }
         System.out.println("..Game over..");
-        printField();
+        printFieldStream();
     }
 
     private void turnHumanX() {
@@ -148,13 +154,8 @@ public class TicTacToeService {
         getField()[y][x] = SIGN_O;
     }
 
-    private void printField() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                System.out.print(getField()[row][col] + " ");
-            }
-            System.out.println();
-        }
+    private void printFieldStream() {
+        Arrays.stream(getField()).forEach(System.out::println);
     }
 
     private boolean checkWin(char symbol) {
