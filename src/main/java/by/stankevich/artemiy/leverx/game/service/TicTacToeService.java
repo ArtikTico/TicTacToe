@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static by.stankevich.artemiy.leverx.game.bean.TicTacToe.*;
@@ -159,12 +160,19 @@ public class TicTacToeService {
     }
 
     private boolean checkWin(char symbol) {
-        for (int i = 0; i < 3; i++)
-            if ((getField()[i][0] == symbol && getField()[i][1] == symbol
-                    && getField()[i][2] == symbol) || (getField()[0][i] == symbol
-                    && getField()[1][i] == symbol && getField()[2][i] == symbol)) {
-                return true;
-            }
+        return IntStream.range(0, 3).anyMatch(i -> checkEuqalsFieldForHorizont(i, symbol)
+                || checkEuqalsFieldForDiagonal(i, symbol));
+    }
+
+    private boolean checkEuqalsFieldForHorizont(int i, char symbol) {
+        if ((getField()[i][0] == symbol && getField()[i][1] == symbol
+                && getField()[i][2] == symbol) || (getField()[0][i] == symbol
+                && getField()[1][i] == symbol && getField()[2][i] == symbol)) {
+            return true;
+        }
+        return false;
+    }
+    private boolean checkEuqalsFieldForDiagonal(int i, char symbol) {
         if ((getField()[0][0] == symbol && getField()[1][1] == symbol
                 && getField()[2][2] == symbol) ||
                 (getField()[2][0] == symbol && getField()[1][1] == symbol
